@@ -1,33 +1,23 @@
-import React, { useState } from 'react';
-import SmartGlasses from './components/SmartGlasses';
-import { Settings, Power, Activity, Map, Cpu } from 'lucide-react';
+import React from 'react';
+import { Power, Activity, Map, Cpu } from 'lucide-react';
+import SmartGlassesView from './platform-threejs/renderers/SmartGlassesView';
+import RealityBackdrop from './platform-threejs/renderers/RealityBackdrop';
+import { HudMode } from './core/domain/components/HudModeComponent';
+import { useGameSimulation } from './platform-threejs/adapters/useGameSimulation';
 
 export default function App() {
-  const [activeMode, setActiveMode] = useState<'system' | 'nav' | 'analysis'>('system');
-  const [isPowered, setIsPowered] = useState(true);
-
-  // Background simulating "Reality"
-  const backgroundStyle = {
-    backgroundImage: `url('https://picsum.photos/1920/1080?grayscale')`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    filter: 'blur(2px) brightness(0.6)',
-  };
+  const { snapshot, togglePower, setMode } = useGameSimulation();
+  const { mode, isPowered, diagnostics } = snapshot;
 
   return (
     <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center">
-      
-      {/* Reality Layer (Background) */}
-      <div 
-        className="absolute inset-0 z-0 transition-opacity duration-1000" 
-        style={backgroundStyle} 
-      />
+      <RealityBackdrop />
 
       {/* Main Experience Layer */}
       <div className="relative z-10 w-full max-w-6xl flex flex-col items-center gap-8 p-4">
         
         {/* The Glasses Component */}
-        <SmartGlasses activeMode={activeMode} isPowered={isPowered} />
+        <SmartGlassesView mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
 
         {/* External Controls (User's hand controls/watch/phone interaction) */}
         <div className="mt-12 p-4 bg-black/80 backdrop-blur-md border border-gray-800 rounded-2xl shadow-2xl flex items-center gap-6">
@@ -35,7 +25,7 @@ export default function App() {
             <span className="text-xs text-gray-400 font-mono uppercase tracking-widest mb-1">Device Control</span>
             <div className="flex gap-4">
                <button 
-                onClick={() => setIsPowered(!isPowered)}
+                onClick={togglePower}
                 className={`p-4 rounded-full transition-all duration-300 ${isPowered ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]' : 'bg-red-900/20 text-red-500'}`}
               >
                 <Power size={24} />
@@ -51,22 +41,22 @@ export default function App() {
                 <ControlButton 
                   icon={<Cpu size={20} />} 
                   label="SYS" 
-                  isActive={activeMode === 'system'} 
-                  onClick={() => setActiveMode('system')} 
+                  isActive={mode === HudMode.System} 
+                  onClick={() => setMode(HudMode.System)} 
                   disabled={!isPowered}
                 />
                 <ControlButton 
                   icon={<Map size={20} />} 
                   label="NAV" 
-                  isActive={activeMode === 'nav'} 
-                  onClick={() => setActiveMode('nav')} 
+                  isActive={mode === HudMode.Navigation} 
+                  onClick={() => setMode(HudMode.Navigation)} 
                   disabled={!isPowered}
                 />
                 <ControlButton 
                   icon={<Activity size={20} />} 
                   label="SCAN" 
-                  isActive={activeMode === 'analysis'} 
-                  onClick={() => setActiveMode('analysis')} 
+                  isActive={mode === HudMode.Analysis} 
+                  onClick={() => setMode(HudMode.Analysis)} 
                   disabled={!isPowered}
                 />
              </div>

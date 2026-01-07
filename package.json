@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bitecs": "^0.3.40",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "lucide-react": "^0.562.0"
