@@ -1,7 +1,7 @@
 import React from 'react';
 import { Power, Activity, Map, Cpu } from 'lucide-react';
-import SmartGlassesView from './platform-threejs/renderers/SmartGlassesView';
 import RealityBackdrop from './platform-threejs/renderers/RealityBackdrop';
+import SmartGlassesCanvas from './platform-threejs/scenes/SmartGlassesCanvas';
 import { HudMode } from './core/domain/components/HudModeComponent';
 import { useGameSimulation } from './platform-threejs/adapters/useGameSimulation';
 
@@ -10,13 +10,12 @@ export default function App() {
   const { mode, isPowered, diagnostics } = snapshot;
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center">
+    <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center bg-black">
       <RealityBackdrop />
 
-      {/* Main Experience Layer - Glasses centered vertically */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-        {/* The Glasses Component - Full width, centered */}
-        <SmartGlassesView mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
+      {/* Main experience rendered via Three.js */}
+      <div className="absolute inset-0 z-10">
+        <SmartGlassesCanvas mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
       </div>
 
       {/* External Controls - Fixed at bottom */}
@@ -65,7 +64,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* Vignette Overlay to focus vision */}
+      {/* Vignette sits between backdrop and controls */}
       <div className="absolute inset-0 z-20 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.8)_100%)]" />
     </div>
   );
