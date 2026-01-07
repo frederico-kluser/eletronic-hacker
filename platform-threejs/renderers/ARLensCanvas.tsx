@@ -46,7 +46,6 @@ const ARLensCanvas: React.FC<ARLensCanvasProps> = ({ side, mode, isPowered, diag
     context.scale(devicePixelRatio, devicePixelRatio);
 
     let scanLineY = 0;
-    let loadingProgress = 0;
 
     const draw = () => {
       const now = Date.now();
@@ -175,20 +174,6 @@ const ARLensCanvas: React.FC<ARLensCanvasProps> = ({ side, mode, isPowered, diag
         context.fillText('DEST: 400m', centerX + 30, bounds.height * 0.4);
       }
 
-      if (elapsed < 2000) {
-        loadingProgress = Math.min(100, (elapsed / 2000) * 100);
-        context.fillStyle = `rgba(0,0,0, ${1 - elapsed / 2000})`;
-        context.fillRect(0, 0, bounds.width, bounds.height);
-
-        if (elapsed < 1500) {
-          context.fillStyle = hudColor;
-          context.fillText(`INITIALIZING OPTICS... ${Math.round(loadingProgress)}%`, centerX - 70, centerY + 80);
-          context.strokeStyle = hudColor;
-          context.strokeRect(centerX - 100, centerY + 90, 200, 10);
-          context.fillRect(centerX - 98, centerY + 92, 196 * (loadingProgress / 100), 6);
-        }
-      }
-
       frameIdRef.current = requestAnimationFrame(draw);
     };
 
@@ -201,7 +186,7 @@ const ARLensCanvas: React.FC<ARLensCanvasProps> = ({ side, mode, isPowered, diag
 
   if (!isPowered) {
     return (
-      <div className="w-full h-full bg-black/30 flex items-center justify-center">
+      <div className="w-full h-full bg-transparent flex items-center justify-center">
         <div className="text-neutral-500 font-mono text-xs">OFFLINE</div>
       </div>
     );
@@ -212,10 +197,7 @@ const ARLensCanvas: React.FC<ARLensCanvasProps> = ({ side, mode, isPowered, diag
       ref={canvasRef}
       className="w-full h-full block"
       style={{
-        backgroundImage:
-          'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))',
-        backgroundSize: '100% 2px, 3px 100%',
-        boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
+        backgroundColor: 'transparent',
       }}
     />
   );

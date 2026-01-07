@@ -27,7 +27,6 @@ const ARLens: React.FC<ARLensProps> = ({ side, activeMode, isPowered }) => {
 
     // Animation state
     let scanLineY = 0;
-    let loadingProgress = 0;
     
     const draw = () => {
       const now = Date.now();
@@ -164,23 +163,6 @@ const ARLens: React.FC<ARLensProps> = ({ side, activeMode, isPowered }) => {
           ctx.fillText("DEST: 400m", cx + 30, rect.height * 0.4);
       }
 
-      // 6. Boot/Loading Sequence (First 3 seconds)
-      if (elapsed < 2000) {
-        loadingProgress = Math.min(100, (elapsed / 2000) * 100);
-        // Overlay black with opacity fading
-        ctx.fillStyle = `rgba(0,0,0, ${1 - elapsed/2000})`;
-        ctx.fillRect(0, 0, rect.width, rect.height);
-        
-        // Loading Bar
-        if (elapsed < 1500) {
-            ctx.fillStyle = hudColor;
-            ctx.fillText(`INITIALIZING OPTICS... ${Math.round(loadingProgress)}%`, cx - 70, cy + 80);
-            ctx.strokeStyle = hudColor;
-            ctx.strokeRect(cx - 100, cy + 90, 200, 10);
-            ctx.fillRect(cx - 98, cy + 92, 196 * (loadingProgress/100), 6);
-        }
-      }
-
       frameIdRef.current = requestAnimationFrame(draw);
     };
 
@@ -194,9 +176,9 @@ const ARLens: React.FC<ARLensProps> = ({ side, activeMode, isPowered }) => {
   // If powered off, just show black glass
   if (!isPowered) {
     return (
-        <div className="w-full h-full bg-black/90 flex items-center justify-center">
-            <div className="text-neutral-700 font-mono text-xs">OFFLINE</div>
-        </div>
+        <div className="w-full h-full bg-transparent flex items-center justify-center">
+        <div className="text-neutral-700 font-mono text-xs">OFFLINE</div>
+      </div>
     );
   }
 
@@ -205,10 +187,7 @@ const ARLens: React.FC<ARLensProps> = ({ side, activeMode, isPowered }) => {
       ref={canvasRef} 
       className="w-full h-full block"
       style={{
-        // Slight CRT scanline effect via CSS
-        backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
-        backgroundSize: '100% 2px, 3px 100%',
-        boxShadow: 'inset 0 0 40px rgba(0,0,0,0.6)'
+        backgroundColor: 'transparent'
       }}
     />
   );
