@@ -11,29 +11,110 @@ interface SmartGlassesViewProps {
 
 const SmartGlassesView: React.FC<SmartGlassesViewProps> = ({ mode, isPowered, diagnostics }) => {
   return (
-    <div className="relative flex items-start justify-center perspective-[1000px]">
-      <div className="relative group">
-        <div className="absolute -top-3 left-0 w-full h-8 bg-gradient-to-b from-neutral-800 via-neutral-900 to-black rounded-t-2xl z-20 shadow-[0_2px_5px_rgba(0,0,0,0.8)] border-t border-neutral-700/50" />
-        <div className="relative w-[320px] h-[240px] rounded-b-[45%] rounded-t-sm border-b-[3px] border-l-[2px] border-r-[2px] border-amber-600/40 bg-black/10 backdrop-blur-[2px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] transform translate-z-0">
-          <ARLensCanvas side={LensSide.Left} mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none z-30 opacity-40 rounded-b-[45%]" />
+    <div className="relative flex items-center justify-center">
+      {/* Main glasses frame container */}
+      <div className="relative flex items-center">
+        {/* Left lens assembly */}
+        <div className="relative">
+          {/* Outer frame - left lens */}
+          <div
+            className="relative bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-900 p-[3px] shadow-[0_4px_15px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)]"
+            style={{
+              borderRadius: '20% 55% 45% 25% / 30% 30% 40% 35%',
+            }}
+          >
+            {/* Inner frame border */}
+            <div
+              className="bg-gradient-to-br from-neutral-900 via-black to-neutral-950 p-[2px]"
+              style={{
+                borderRadius: '18% 53% 43% 23% / 28% 28% 38% 33%',
+              }}
+            >
+              {/* Lens container */}
+              <div
+                className="relative w-[300px] h-[200px] bg-black/20 backdrop-blur-[1px] overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.7)]"
+                style={{
+                  borderRadius: '16% 51% 41% 21% / 26% 26% 36% 31%',
+                }}
+              >
+                <ARLensCanvas side={LensSide.Left} mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
+                {/* Glass reflection effect */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none z-30"
+                  style={{
+                    borderRadius: '16% 51% 41% 21% / 26% 26% 36% 31%',
+                  }}
+                />
+                {/* Secondary reflection */}
+                <div
+                  className="absolute bottom-0 right-0 w-1/2 h-1/3 bg-gradient-to-tl from-white/5 to-transparent pointer-events-none z-30"
+                  style={{
+                    borderRadius: '0 0 41% 0',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          {/* Left frame accent detail */}
+          <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-16 bg-gradient-to-b from-neutral-600 via-neutral-800 to-neutral-600 rounded-l-full shadow-md" />
         </div>
-      </div>
 
-      <div className="relative w-10 h-8 mt-1 z-10 flex flex-col items-center">
-        <div className="w-full h-2 bg-neutral-900 absolute top-0" />
-        <div className="w-8 h-[2px] bg-amber-600/60 mt-4 rounded-full shadow-sm" />
-        <div className="absolute top-6 w-full flex justify-between px-1">
-          <div className="w-1 h-3 bg-transparent border-r border-amber-600/40" />
-          <div className="w-1 h-3 bg-transparent border-l border-amber-600/40" />
+        {/* Bridge - nose piece */}
+        <div className="relative z-20 -mx-2">
+          {/* Top bridge bar */}
+          <div className="w-12 h-3 bg-gradient-to-b from-neutral-600 via-neutral-700 to-neutral-800 rounded-t-lg shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
+          {/* Bridge arch */}
+          <div className="relative flex justify-center">
+            <div className="w-8 h-6 border-l-[3px] border-r-[3px] border-b-[3px] border-neutral-700 rounded-b-[50%] bg-transparent" />
+          </div>
+          {/* Nose pads hints */}
+          <div className="absolute -bottom-2 left-1 w-2 h-3 bg-gradient-to-b from-neutral-500 to-neutral-700 rounded-full opacity-60" />
+          <div className="absolute -bottom-2 right-1 w-2 h-3 bg-gradient-to-b from-neutral-500 to-neutral-700 rounded-full opacity-60" />
         </div>
-      </div>
 
-      <div className="relative group">
-        <div className="absolute -top-3 right-0 w-full h-8 bg-gradient-to-b from-neutral-800 via-neutral-900 to-black rounded-t-2xl z-20 shadow-[0_2px_5px_rgba(0,0,0,0.8)] border-t border-neutral-700/50" />
-        <div className="relative w-[320px] h-[240px] rounded-b-[45%] rounded-t-sm border-b-[3px] border-l-[2px] border-r-[2px] border-amber-600/40 bg-black/10 backdrop-blur-[2px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] transform translate-z-0">
-          <ARLensCanvas side={LensSide.Right} mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none z-30 opacity-40 rounded-b-[45%]" />
+        {/* Right lens assembly */}
+        <div className="relative">
+          {/* Outer frame - right lens */}
+          <div
+            className="relative bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-900 p-[3px] shadow-[0_4px_15px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)]"
+            style={{
+              borderRadius: '55% 20% 25% 45% / 30% 30% 35% 40%',
+            }}
+          >
+            {/* Inner frame border */}
+            <div
+              className="bg-gradient-to-br from-neutral-900 via-black to-neutral-950 p-[2px]"
+              style={{
+                borderRadius: '53% 18% 23% 43% / 28% 28% 33% 38%',
+              }}
+            >
+              {/* Lens container */}
+              <div
+                className="relative w-[300px] h-[200px] bg-black/20 backdrop-blur-[1px] overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.7)]"
+                style={{
+                  borderRadius: '51% 16% 21% 41% / 26% 26% 31% 36%',
+                }}
+              >
+                <ARLensCanvas side={LensSide.Right} mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
+                {/* Glass reflection effect */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-bl from-white/8 via-transparent to-transparent pointer-events-none z-30"
+                  style={{
+                    borderRadius: '51% 16% 21% 41% / 26% 26% 31% 36%',
+                  }}
+                />
+                {/* Secondary reflection */}
+                <div
+                  className="absolute bottom-0 left-0 w-1/2 h-1/3 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none z-30"
+                  style={{
+                    borderRadius: '0 0 0 41%',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          {/* Right frame accent detail */}
+          <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-16 bg-gradient-to-b from-neutral-600 via-neutral-800 to-neutral-600 rounded-r-full shadow-md" />
         </div>
       </div>
     </div>
