@@ -1,0 +1,7 @@
+{
+  "name": "VisionOS Browline AR",
+  "description": "First-person perspective of Augmented Reality smart glasses in a classic Browline style, featuring dual-canvas rendering for HUD visualization.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
