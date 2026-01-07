@@ -201,8 +201,8 @@ const ARLensCanvas: React.FC<ARLensCanvasProps> = ({ side, mode, isPowered, diag
 
   if (!isPowered) {
     return (
-      <div className="w-full h-full bg-black/90 flex items-center justify-center">
-        <div className="text-neutral-700 font-mono text-xs">OFFLINE</div>
+      <div className="w-full h-full bg-black/30 flex items-center justify-center">
+        <div className="text-neutral-500 font-mono text-xs">OFFLINE</div>
       </div>
     );
   }
@@ -213,9 +213,9 @@ const ARLensCanvas: React.FC<ARLensCanvasProps> = ({ side, mode, isPowered, diag
       className="w-full h-full block"
       style={{
         backgroundImage:
-          'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
+          'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))',
         backgroundSize: '100% 2px, 3px 100%',
-        boxShadow: 'inset 0 0 40px rgba(0,0,0,0.6)',
+        boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
       }}
     />
   );

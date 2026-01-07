@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { DeviceDiagnosticsSnapshot } from '../../core/data/DeviceSpecifications';
 import { HudMode } from '../../core/domain/components/HudModeComponent';
 import ARLensCanvas, { LensSide } from './ARLensCanvas';
@@ -9,9 +9,35 @@ interface SmartGlassesViewProps {
   diagnostics: DeviceDiagnosticsSnapshot;
 }
 
+// Base width of the glasses frame (approximately)
+const GLASSES_BASE_WIDTH = 640;
+
 const SmartGlassesView: React.FC<SmartGlassesViewProps> = ({ mode, isPowered, diagnostics }) => {
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const calculateScale = () => {
+      const viewportWidth = window.innerWidth;
+      // Scale to fill 100% of viewport width
+      const newScale = viewportWidth / GLASSES_BASE_WIDTH;
+      setScale(newScale);
+    };
+
+    calculateScale();
+    window.addEventListener('resize', calculateScale);
+    return () => window.removeEventListener('resize', calculateScale);
+  }, []);
+
   return (
-    <div className="relative flex items-center justify-center">
+    <div
+      ref={containerRef}
+      className="relative flex items-center justify-center"
+      style={{
+        transform: `scale(${scale})`,
+        transformOrigin: 'center center',
+      }}
+    >
       {/* Main glasses frame container */}
       <div className="relative flex items-center">
         {/* Left lens assembly */}
@@ -32,9 +58,11 @@ const SmartGlassesView: React.FC<SmartGlassesViewProps> = ({ mode, isPowered, di
             >
               {/* Lens container */}
               <div
-                className="relative w-[300px] h-[200px] bg-black/20 backdrop-blur-[1px] overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.7)]"
+                className="relative w-[300px] h-[200px] overflow-hidden"
                 style={{
                   borderRadius: '16% 51% 41% 21% / 26% 26% 36% 31%',
+                  backgroundColor: 'rgba(0, 0, 0, 0.15)',
+                  boxShadow: 'inset 0 0 30px rgba(0,0,0,0.3)',
                 }}
               >
                 <ARLensCanvas side={LensSide.Left} mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
@@ -90,9 +118,11 @@ const SmartGlassesView: React.FC<SmartGlassesViewProps> = ({ mode, isPowered, di
             >
               {/* Lens container */}
               <div
-                className="relative w-[300px] h-[200px] bg-black/20 backdrop-blur-[1px] overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.7)]"
+                className="relative w-[300px] h-[200px] overflow-hidden"
                 style={{
                   borderRadius: '51% 16% 21% 41% / 26% 26% 31% 36%',
+                  backgroundColor: 'rgba(0, 0, 0, 0.15)',
+                  boxShadow: 'inset 0 0 30px rgba(0,0,0,0.3)',
                 }}
               >
                 <ARLensCanvas side={LensSide.Right} mode={mode} isPowered={isPowered} diagnostics={diagnostics} />

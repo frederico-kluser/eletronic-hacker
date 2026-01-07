@@ -13,14 +13,15 @@ export default function App() {
     <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center">
       <RealityBackdrop />
 
-      {/* Main Experience Layer */}
-      <div className="relative z-10 w-full max-w-6xl flex flex-col items-center gap-8 p-4">
-        
-        {/* The Glasses Component */}
+      {/* Main Experience Layer - Glasses centered vertically */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+        {/* The Glasses Component - Full width, centered */}
         <SmartGlassesView mode={mode} isPowered={isPowered} diagnostics={diagnostics} />
+      </div>
 
-        {/* External Controls (User's hand controls/watch/phone interaction) */}
-        <div className="mt-12 p-4 bg-black/80 backdrop-blur-md border border-gray-800 rounded-2xl shadow-2xl flex items-center gap-6">
+      {/* External Controls - Fixed at bottom */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
+        <div className="p-4 bg-black/80 backdrop-blur-md border border-gray-800 rounded-2xl shadow-2xl flex items-center gap-6 pointer-events-auto">
           <div className="flex flex-col">
             <span className="text-xs text-gray-400 font-mono uppercase tracking-widest mb-1">Device Control</span>
             <div className="flex gap-4">
